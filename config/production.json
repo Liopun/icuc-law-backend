@@ -1,0 +1,8 @@
+{
+    "mongoURI": "mongodb+srv://admin:28eNIfp3k3SZA9gq@fitsfy.3h0ak.mongodb.net/icuc?retryWrites=true&w=majority",
+    "secretOrKey": "some28eNIfp3k3SZA9gqsecret",
+    "refreshTokenSecret": "some@28eNIfp3k3SZA9gqrefresh123secret",
+    "port": 3000,
+    "tokenLife": 900,
+    "refreshTokenLife": 86400
+}
