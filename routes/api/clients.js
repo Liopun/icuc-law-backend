@@ -8,17 +8,18 @@ const { check, validationResult } = require('express-validator');
 const Auth    = require('../../models/auth-model');
 const Clients    = require('../../models/clients-model');
 
+// get all clients
 router.get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const clients = await Clients.find().sort({ date: -1 });
 
         return res.status(200).json(clients);
     } catch (err) {
-        console.log(err.message)
         return res.status(500).send('Server Error');
     }
 });
 
+// get a client
 router.get('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const client = await Clients.findById(req.params.id);
@@ -27,12 +28,12 @@ router.get('/:id', passport.authenticate('jwt', { session: false }), async (req,
 
         return res.status(200).json(client);
     } catch (err) {
-        console.log(err.message)
-        if(err.kind === 'ObjectId') return res.status(404).send({ msg: 'Client not found.'});
+        if(err.kind === 'ObjectId') return res.status(404).send({ msg: err.message });
         return res.status(500).send('Server Error');
     }
 });
 
+// add a client
 router.post('/', [
         passport.authenticate('jwt', { session: false }),
         [
@@ -60,11 +61,11 @@ router.post('/', [
             const client = await newClient.save();
             return res.status(200).json(client);
         } catch (err) {
-            console.log(err.message)
             return res.status(500).send('Server Error');
         }
 });
 
+// update client
 router.put('/:id', [
         passport.authenticate('jwt', { session: false }),
         [
@@ -95,11 +96,11 @@ router.put('/:id', [
 
             return res.status(200).json(client);
         } catch (err) {
-            console.log(err.message)
             return res.status(500).send('Server Error');
         }
 });
 
+// add a note
 router.post('/notes/:id', [
         passport.authenticate('jwt', { session: false }),
         [check('description', 'Description not provided').not().isEmpty()]
@@ -121,11 +122,11 @@ router.post('/notes/:id', [
             await client.save();
             return res.status(200).json(client.notes);
         } catch (err) {
-            console.log(err.message)
             return res.status(500).send('Server Error');
         }
 });
 
+// delete a client
 router.delete('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const client = await Clients.findById(req.params.id);

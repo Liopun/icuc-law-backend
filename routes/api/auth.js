@@ -12,6 +12,7 @@ const Auth             = require('../../models/auth-model');
 const tokenList = {};
 const TOKENLIFE = keys.get('tokenLife'), REFRESHLIFE = keys.get('refreshTokenLife'), SECRET = keys.get('secretOrKey');
 
+// register an admin
 router.post('/register', 
     [
         check('name', 'Name is not provided').not().isEmpty(),
@@ -47,6 +48,7 @@ router.post('/register',
 
 })
 
+// admin login
 router.post('/login', 
     [
         check('email', 'Valid email not provided').isEmail(),
@@ -98,6 +100,7 @@ router.post('/login',
         
 })
 
+// refresh token
 router.get('/refresh-token', (req, res) => {
 
     const refreshToken = req.signedCookies['jwtToken'];
@@ -130,6 +133,7 @@ router.get('/refresh-token', (req, res) => {
 
 })
 
+// revoke token
 router.get('/revoke-token', (req, res, next) => {
     const token = req.signedCookies['jwtToken'];
     if (token in tokenList) delete tokenList[token];
