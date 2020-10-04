@@ -7,7 +7,7 @@
     "start": "node server",
     "dev": "nodemon server",
     "test": "jest",
-    "test:watch": "jest --watch --runInBand --detectOpenHandles",
+    "test:watch": "jest --watchAll --runInBand --detectOpenHandles",
     "test:coverage": "jest --coverage --runInBand --detectOpenHandles --forceExit"
   },
   "jest": {
