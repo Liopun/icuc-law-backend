@@ -134,7 +134,6 @@ describe("POST /api/clients/notes/:id", () => {
 
         expect(client.status).toBe(200);
         expect(client.body).toBeTruthy();
-        console.log("NOTES:: ", client.body.notes);
     });
 });
 
