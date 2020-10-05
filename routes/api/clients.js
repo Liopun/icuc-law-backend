@@ -13,9 +13,10 @@ router.get('/', passport.authenticate('jwt', { session: false }), async (req, re
     try {
         const clients = await Clients.find().sort({ date: -1 });
 
-        return res.status(200).json(clients);
+        res.status(200).json(clients);
     } catch (err) {
-        return res.status(500).send('Server Error');
+        console.log("GET /", err);
+        res.status(500).send('Server Error');
     }
 });
 
@@ -26,10 +27,11 @@ router.get('/:id', passport.authenticate('jwt', { session: false }), async (req,
 
         if(!client) return res.status(404).json({ msg: 'No client found' });
 
-        return res.status(200).json(client);
+        res.status(200).json(client);
     } catch (err) {
+        console.log("GET /:id", err);
         if(err.kind === 'ObjectId') return res.status(404).send({ msg: err.message });
-        return res.status(500).send('Server Error');
+        res.status(500).send('Server Error');
     }
 });
 
@@ -59,11 +61,13 @@ router.post('/', [
             });
 
             const client = await newClient.save();
-            return res.status(200).json(client);
+            res.status(200).json(client);
         } catch (err) {
-            return res.status(500).send('Server Error');
+            console.log("POST /", err);
+            res.status(500).send('Server Error');
         }
-});
+    }
+);
 
 // update client
 router.put('/:id', [
@@ -94,11 +98,13 @@ router.put('/:id', [
 
             if(!client) return res.status(404).send({ msg: 'Invalid ID'});
 
-            return res.status(200).json(client);
+            res.status(200).json(client);
         } catch (err) {
-            return res.status(500).send('Server Error');
+            console.log("PUT /:id", err);
+            res.status(500).send('Server Error');
         }
-});
+    }
+);
 
 // add a note
 router.post('/notes/:id', [
@@ -120,9 +126,10 @@ router.post('/notes/:id', [
 
             client.notes.unshift(newNote);
             await client.save();
-            return res.status(200).json(client.notes);
+            res.status(200).json(client.notes);
         } catch (err) {
-            return res.status(500).send('Server Error');
+            console.log("POST /notes/:id", err);
+            res.status(500).send('Server Error');
         }
 });
 
@@ -137,9 +144,9 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), async (r
         await client.remove();
         res.status(200).json({ msg: 'Client removed'});
     } catch (err) {
-        console.log(err.message)
+        console.log("DELETE /:id", err);
         if(err.kind === 'ObjectId') return res.status(404).send({ msg: 'Post not found'});
-        return res.status(500).send('Server Error');
+        res.status(500).send('Server Error');
     }
 });
 

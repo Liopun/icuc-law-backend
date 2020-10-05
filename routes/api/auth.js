@@ -43,10 +43,10 @@ router.post('/register',
             
             res.status(200).json(response);
         } catch (err) {
+            console.log("POST /register", err);
             res.status(500).send('Server error');
         }
-
-})
+});
 
 // admin login
 router.post('/login', 
@@ -63,49 +63,46 @@ router.post('/login',
         try {
             const { email, password } = req.body;
             let user = await Auth.findOne({ email: email });
-
-            if (!user) return res.status(400).json({ errors: [{ msg: 'User not found' }]});
-
             const isMatch = await bcrypt.compare(password, user.password);
 
-            if (isMatch) {
-                const payload = { id: user.id, name: user.name };
-                const cookieOptions = {
-                    maxAge: TOKENLIFE * 1000,
-                    httpOnly: true,
-                    signed: true
-                };
+            if (!user) return res.status(400).json({ errors: [{ msg: 'User not found' }]});
+            if (!isMatch) return res.status(400).json({errors: [{ msg: 'Invalid Credentials'}]});
 
-                const token = jwt.sign(payload, SECRET, { subject: `${user.id}`, expiresIn: TOKENLIFE });
+            const payload = { id: user.id, name: user.name };
+            const cookieOptions = {
+                maxAge: TOKENLIFE * 1000,
+                httpOnly: true,
+                signed: true
+            };
 
-                const response = {
-                    success: true,
-                    message: 'Successfully logged in!'
-                };
+            const token = jwt.sign(payload, SECRET, { subject: `${user.id}`, expiresIn: TOKENLIFE });
 
-                tokenList[token] = {
-                    jwtToken: token,
-                    id: payload.id,
-                    name: payload.name
-                };
+            const response = {
+                success: true,
+                message: 'Successfully logged in!'
+            };
 
-                res.cookie('jwtToken', token, cookieOptions);
-                res.status(200).json(response);
-            } else {
-                return res.status(400).json({errors: [{ msg: 'Invalid Credentials'}]});
-            }
+            tokenList[token] = {
+                jwtToken: token,
+                id: payload.id,
+                name: payload.name
+            };
+
+            res.cookie('jwtToken', token, cookieOptions);
+            res.status(200).json(response);
         } catch (err) {
-            return res.status(500).send('Server error');
-        }
-        
-})
+            console.log("POST /login", err);
+            res.status(500).send('Server error');
+        }    
+});
 
 // refresh token
 router.get('/refresh-token', (req, res) => {
+    try {
+        const refreshToken = req.signedCookies['jwtToken'];
 
-    const refreshToken = req.signedCookies['jwtToken'];
+        if(!(refreshToken && refreshToken in tokenList)) return res.status(404).send('Invalid request');
 
-    if (refreshToken && (refreshToken in tokenList)) {
         const payload = {
             id: tokenList[refreshToken].id,
             name: tokenList[refreshToken].name
@@ -127,19 +124,23 @@ router.get('/refresh-token', (req, res) => {
 
         res.cookie('jwtToken', token, cookieOptions);
         res.status(200).json(response);
-    } else {
-        res.status(404).send('Invalid request');
+    } catch(err) {
+        console.log("GET /refresh-token", err);
+        res.status(500).send('Server error');
     }
-
-})
+});
 
 // revoke token
-router.get('/revoke-token', (req, res, next) => {
-    const token = req.signedCookies['jwtToken'];
-    if (token in tokenList) delete tokenList[token];
-    res.clearCookie();
-    res.status(204).send('out');
-
+router.get('/revoke-token', (req, res) => {
+    try {
+        const token = req.signedCookies['jwtToken'];
+        if (token in tokenList) delete tokenList[token];
+        res.clearCookie();
+        res.status(204).send('out');
+    } catch(err) {
+        console.log("GET /revoke-token", err);
+        res.status(500).send('Server error');
+    }
 });
 
 module.exports = router;
