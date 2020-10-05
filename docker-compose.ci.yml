@@ -1,0 +1,6 @@
+version: "3.7"
+services:
+  icuclaw:
+    image: $DOCKER_USERNAME/icuc-law-backend:latest
+    ports:
+      - '3000:3000'
