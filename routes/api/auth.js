@@ -52,7 +52,7 @@ router.post('/register',
 router.post('/login', 
     [
         check('email', 'Valid email not provided').isEmail(),
-        check('password', 'Password not provided').exists()
+        check('password', 'Password not provided').isEmpty()
     ],
     async (req, res) => {
 
