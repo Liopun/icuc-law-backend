@@ -4,8 +4,6 @@ const db      = require("../utils/db"),
 const Auth    = require("../models/auth-model"),
       Clients = require("../models/clients-model");
 
-let token;
-
 beforeAll(async () => {
     try {
         await Auth.deleteMany();
