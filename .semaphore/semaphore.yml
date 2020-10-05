@@ -11,4 +11,9 @@ blocks:
         - name: docker build
           commands:
             - checkout
-            - docker build -t your-image .
+            - 'echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin'
+            - 'docker pull "${DOCKER_USERNAME}/icuc-law-backend:latest" || true'
+            - 'docker build --cache-from "${DOCKER_USERNAME}/icuc-law-backend:latest" -t "${DOCKER_USERNAME}/icuc-law-backend:latest" .'
+            - 'docker push "${DOCKER_USERNAME}/icuc-law-backend:latest"'
+      secrets:
+        - name: dockerhub
