@@ -27,6 +27,7 @@ ICUC law-firm-backend
 ```
 git clone https://github.com/Liopun/icuc-law-backend.git
 cd icuc-law-backend/
+create your config folder with default.json and production.json
 docker build -t icuc-law-backend .
 docker run -it -p 3001:3000 icuc-law-backend  
 ```
