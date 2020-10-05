@@ -1,9 +1,0 @@
-version: "3.7"
-services:
-  icuclaw:
-    image: $DOCKER_USERNAME/icuc-law-backend:latest
-    command: "npm run test:coverage"
-    environment:
-      mongoURI: mongodb+srv://admin:28eNIfp3k3SZA9gq@fitsfy.3h0ak.mongodb.net/icuc?retryWrites=true&w=majority
-    ports:
-      - '3000:3000'
