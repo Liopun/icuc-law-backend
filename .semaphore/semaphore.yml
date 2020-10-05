@@ -28,4 +28,4 @@ blocks:
       jobs:
         - name: Integration Test
           commands:
-            - 'docker run -it -p 3001:3000 $DOCKER_USERNAME/icuc-law-backend:latest npm test:coverage'
+            - 'docker run -it -p 3001:3000 $DOCKER_USERNAME/icuc-law-backend:latest'
