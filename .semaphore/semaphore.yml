@@ -29,4 +29,4 @@ blocks:
       jobs:
         - name: Integration Test
           commands:
-            - 'docker-compose run icuclaw npm test:coverage'
+            - 'docker-compose run icuclaw npm run test:coverage'
