@@ -39,3 +39,6 @@ typings/
 
 # config environment variables file
 config/
+
+# vscode
+.vscode/

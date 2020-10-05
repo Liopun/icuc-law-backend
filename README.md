@@ -25,6 +25,6 @@ ICUC law-firm-backend
 
 
 ```
-cd law-firm-backend/
+cd icuc-law-backend/
 docker run -it -p 3001:3000 icuc-law-backend  
 ```
