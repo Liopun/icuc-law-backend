@@ -6,5 +6,5 @@ COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 USER node
 RUN npm install
 COPY --chown=node:node . .
-EXPOSE 3000
+EXPOSE 3000 3003
 CMD npm run test:coverage && npm run start

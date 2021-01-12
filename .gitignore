@@ -42,3 +42,6 @@ config/
 
 # vscode
 .vscode/
+
+# covarage report
+coverage/
