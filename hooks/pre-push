@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# Prevents push of commits where npm audit finds NPM dependency vulnerability.
+
+RED="\033[1;31m"
+GREEN="\033[1;32m"
+
+remote="$1"
+url="$2"
+has_err=0
+
+function err_quit {
+	>&2 echo "${RED} ❌NPM dependency vulnerability. Run npm audit to find dependency to update."
+	exit 1
+}
+
+npm audit --audit-level=low --parseable 2>&1 > /dev/null || err_quit;
+
+>&2 echo "${GREEN} ✔ NPM dependencies are safe."
+exit 0
+
+# Add your own logic to pre-push hook here
