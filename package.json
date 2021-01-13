@@ -9,7 +9,7 @@
     "test": "jest",
     "test:watch": "jest --watchAll --runInBand --detectOpenHandles",
     "test:coverage": "jest --coverage --runInBand --detectOpenHandles --forceExit",
-    "postinstall": "git config core.hooksPath ./hooks"
+    "postinstall": "git config core.hooksPath ./.git/hooks"
   },
   "jest": {
     "testEnvironment": "node"

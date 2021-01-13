@@ -16,7 +16,7 @@ function err_quit {
 
 npm audit --audit-level=low --parseable 2>&1 > /dev/null || err_quit;
 
->&2 echo "${GREEN} ✔ NPM dependencies are safe."
+>&2 echo "${GREEN} ✔NPM dependencies are safe."
 exit 0
 
 # Add your own logic to pre-push hook here
