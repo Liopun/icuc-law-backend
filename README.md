@@ -1,6 +1,6 @@
 # 
 
-ICUC law-firm-backend
+law-firm-backend
 ====================
 
 ## Using Node.js, MongoDB, jest And Docker
@@ -25,15 +25,15 @@ ICUC law-firm-backend
 
 #### Running it locally
 ```
-git clone https://github.com/Liopun/icuc-law-backend.git
-cd icuc-law-backend/
+git clone https://github.com/Liopun/law-backend.git
+cd law-backend/
 create your config folder with default.json and production.json
-docker build -t icuc-law-backend .
-docker run -it -p 3001:3000 icuc-law-backend  
+docker build -t law-backend .
+docker run -it -p 3001:3000 law-backend  
 ```
 
 #### Running it from DockerHub
 ```
 docker pull liopun/icuc-law-backend
-docker run -it -p 3001:3000 liopun/icuc-law-backend
+docker run -it -p 3001:3000 liopun/law-backend
 ```
